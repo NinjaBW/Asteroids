@@ -10,6 +10,7 @@ PLAYER_TURN_SPEED = 300
 PLAYER_SPEED = 200
 SHOT_RADIUS = 5
 PLAYER_SHOT_SPEED = 400
+PLAYER_SHOT_COOLDOWN = 0.3
 '''While True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

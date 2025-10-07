@@ -6,10 +6,13 @@ from constants import PLAYER_SPEED
 from asteroid import Shot
 from constants import SHOT_RADIUS
 from constants import PLAYER_SHOT_SPEED
+from constants import PLAYER_SHOT_COOLDOWN
+
 
 class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
+        self.timer = 0.0
         self.rotation = 0
         
     def rotate(self, dt):
@@ -30,8 +33,10 @@ class Player(CircleShape):
     def draw(self, screen):
         pygame.draw.polygon(screen, (255, 255, 255), self.triangle(), 2)
 
+
     def update(self, dt):
         keys = pygame.key.get_pressed()
+        self.timer -= dt
         if keys[pygame.K_a]:
             self.rotate(-dt)
         if keys[pygame.K_d]:
@@ -44,7 +49,15 @@ class Player(CircleShape):
             self.shoot()
 
     def shoot(self):
+        if self.timer > 0:
+            return
+        
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         shot = Shot(self.position.x + forward.x * self.radius, self.position.y + forward.y * self.radius, SHOT_RADIUS)
         shot.velocity = forward * PLAYER_SHOT_SPEED
+        self.timer = PLAYER_SHOT_COOLDOWN
+
+   
+
+
 
